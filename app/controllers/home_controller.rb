@@ -25,9 +25,23 @@ class HomeController < ApplicationController
 
     for index in (0...data_hash.length)
         
-    
+        #Getting the info from the API FEDEX
         fedexhash=getPackgeApiFedex(data_hash[index]['tracking_number'])
 
+        #Getting the ExceededWeight
+        exceededWeight=getExceededWeight(data_hash[index]['parcel']['length'],
+                          data_hash[index]['parcel']['width'],
+                          data_hash[index]['parcel']['height'],
+                          data_hash[index]['parcel']['distance_unit'],   
+                          data_hash[index]['parcel']['weight'],
+                          data_hash[index]['parcel']['mass_unit'],
+                          fedexhash[0]['details']['package_dimensions']['length'],
+                          fedexhash[0]['details']['package_dimensions']['width'],
+                          fedexhash[0]['details']['package_dimensions']['height'],
+                          fedexhash[0]['details']['package_dimensions']['units'],
+                          fedexhash[0]['details']['package_weight']['value'],
+                          fedexhash[0]['details']['package_weight']['units'])
+        #Saving Json label and API FEdex info in the db
         Package.create(tracking_number: data_hash[index]['tracking_number'],
         flength:fedexhash[0]['details']['package_dimensions']['length'],
         fwidth:fedexhash[0]['details']['package_dimensions']['width'],
@@ -41,7 +55,7 @@ class HomeController < ApplicationController
         jweight:data_hash[index]['parcel']['weight'],
         jdistance_unit:data_hash[index]['parcel']['distance_unit'],
         jmass_unit:data_hash[index]['parcel']['mass_unit'],
-        eweight: "0")
+        eweight: exceededWeight)
     end   
 
   end
@@ -56,11 +70,11 @@ class HomeController < ApplicationController
       #1lb =0.454 kg
       weight2=(weight2.to_i)*0.454
       if(measure>=weight.to_i)
-        ExceededWeight=(measure-measure2).ceil
+        exceededWeight=(measure-measure2).ceil
       else   
-        ExceededWeight=(weight-(weight2)).ceil
+        exceededWeight=(weight-(weight2)).ceil
 
-      return ExceededWeight
+      return exceededWeight.to_s
   end
 
   def getPackgeApiFedex(tracking_number)
