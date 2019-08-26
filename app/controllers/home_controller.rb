@@ -46,6 +46,15 @@ class HomeController < ApplicationController
 
   end
 
+  def getExceededWeight(length,width,height,distance_unit,weight,mass_unit,length,width,height,distance_unit,weight,mass_unit)
+      
+      measure=(length.to_i*width.to_i*height.to_i)/5000
+      if(measure>=weight)
+        
+
+      return ExceededWeight
+  end
+
   def getPackgeApiFedex(tracking_number)
        
     @fedex = Fedex::Shipment.new(:key => 'jfjwKS65xft8r8mh',
