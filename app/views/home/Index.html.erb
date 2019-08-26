@@ -1,5 +1,6 @@
 <h1>Home#Index</h1>
-<p>Here you can see all the Packages saved in the table</p>
+<%= @package %>
+<p>Here you can see all the packages saved in the table</p>
 
 <table>
 <tbody>
@@ -21,6 +22,23 @@
             <th>peso excedido</th>
 		</tr>
     </thead>
+    <% @packages.each do |package| %>
+      <tr>
+      <td data-column="First Name"><%= package.tracking_number %></td>
+      <td data-column="First Name"><%= package.flength %></td>
+      <td data-column="First Name"><%= package.fwidth %></td>
+      <td data-column="First Name"><%= package.fheight %></td>
+      <td data-column="First Name"><%= package.fweight %></td>
+      <td data-column="First Name"><%= package.fdistance_unit %></td>
+      <td data-column="First Name"><%= package.fmass_unit %></td>
+      <td data-column="First Name"><%= package.jlength %></td>
+      <td data-column="First Name"><%= package.jwidth %></td>
+      <td data-column="First Name"><%= package.jheight %></td>
+      <td data-column="First Name"><%= package.jweight %></td>
+      <td data-column="First Name"><%= package.jdistance_unit %></td>
+      <td data-column="First Name"><%= package.jmass_unit %></td>
+      <td data-column="First Name"><%= package.eweight %></td>
+  <% end %>   
     
 </tbody>
 </table>

@@ -2,10 +2,11 @@ require 'json'
 require 'fedex'
 class HomeController < ApplicationController
   def Index
-    $packages=Package.all
+    @packages=Package.all
+     
   end
   def destroy
-    $packages=Package.destroy_all
+    @packages=Package.destroy_all
   end
   
   def filldb
