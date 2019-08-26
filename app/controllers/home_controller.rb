@@ -12,9 +12,7 @@ class HomeController < ApplicationController
   def filldb
     #reading the Json File
     @data_hash=readJsonFile
-    #Geting package info from API Fedex
-    @largo=@data_hash.length
-    
+        
     #saving the info of Json file and APi fedex (one single row for tracking number)
     savingdb(@data_hash)
 
@@ -73,7 +71,10 @@ class HomeController < ApplicationController
         exceededWeight=(measure-measure2).ceil
       else   
         exceededWeight=(weight-(weight2)).ceil
-
+      end
+      if (exceededWeight<0)
+        exceededWeight=0
+      end
       return exceededWeight.to_s
   end
 
