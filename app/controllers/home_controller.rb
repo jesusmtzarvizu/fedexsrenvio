@@ -46,11 +46,19 @@ class HomeController < ApplicationController
 
   end
 
-  def getExceededWeight(length,width,height,distance_unit,weight,mass_unit,length,width,height,distance_unit,weight,mass_unit)
-      
+  def getExceededWeight(length,width,height,distance_unit,weight,mass_unit,length2,width2,height2,distance_unit2,weight2,mass_unit2)
+      #peso volumentrico del paquete del Json label file
       measure=(length.to_i*width.to_i*height.to_i)/5000
-      if(measure>=weight)
-        
+      #1 pulgada cubica = 16.387cm cubicos
+      #peso volumentrico del paquete de la API FEDEX API
+      measure2=((length2.to_i*width2.to_i*height2.to_i)/5000)*16.387
+
+      #1lb =0.454 kg
+      weight2=(weight2.to_i)*0.454
+      if(measure>=weight.to_i)
+        ExceededWeight=(measure-measure2).ceil
+      else   
+        ExceededWeight=(weight-(weight2)).ceil
 
       return ExceededWeight
   end
