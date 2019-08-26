@@ -13,28 +13,36 @@ class HomeController < ApplicationController
     #reading the Json File
     @data_hash=readJsonFile
     #Geting package info from API Fedex
-    @fedexhash=getPackgeApiFedex(@data_hash[0]['tracking_number'])
+    @largo=@data_hash.length
+    
     #saving the info of Json file and APi fedex (one single row for tracking number)
-    savingdb(@data_hash,@fedexhash)
+    savingdb(@data_hash)
 
   end
 
-  def savingdb(data_hash,fedexhash)
-    Package.create(tracking_number: data_hash[0]['tracking_number'],
-    flength:fedexhash[0]['details']['package_dimensions']['length'],
-    fwidth:fedexhash[0]['details']['package_dimensions']['width'],
-    fheight:fedexhash[0]['details']['package_dimensions']['height'],
-    fweight:fedexhash[0]['details']['package_weight']['value'],
-    fdistance_unit:fedexhash[0]['details']['package_dimensions']['units'],
-    fmass_unit:fedexhash[0]['details']['package_weight']['units'],
-    jlength:data_hash[0]['parcel']['length'],
-    jwidth:data_hash[0]['parcel']['width'],
-    jheight:data_hash[0]['parcel']['height'],
-    jweight:data_hash[0]['parcel']['weight'],
-    jdistance_unit:data_hash[0]['parcel']['distance_unit'],
-    jmass_unit:data_hash[0]['parcel']['mass_unit'],
-    eweight: "0"
-    )   
+  def savingdb(data_hash)
+
+
+    for index in (0...data_hash.length)
+        
+    
+        fedexhash=getPackgeApiFedex(data_hash[index]['tracking_number'])
+
+        Package.create(tracking_number: data_hash[index]['tracking_number'],
+        flength:fedexhash[0]['details']['package_dimensions']['length'],
+        fwidth:fedexhash[0]['details']['package_dimensions']['width'],
+        fheight:fedexhash[0]['details']['package_dimensions']['height'],
+        fweight:fedexhash[0]['details']['package_weight']['value'],
+        fdistance_unit:fedexhash[0]['details']['package_dimensions']['units'],
+        fmass_unit:fedexhash[0]['details']['package_weight']['units'],
+        jlength:data_hash[index]['parcel']['length'],
+        jwidth:data_hash[index]['parcel']['width'],
+        jheight:data_hash[index]['parcel']['height'],
+        jweight:data_hash[index]['parcel']['weight'],
+        jdistance_unit:data_hash[index]['parcel']['distance_unit'],
+        jmass_unit:data_hash[index]['parcel']['mass_unit'],
+        eweight: "0")
+    end   
 
   end
 
