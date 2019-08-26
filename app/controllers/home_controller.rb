@@ -1,3 +1,5 @@
+require 'json'
+require 'fedex'
 class HomeController < ApplicationController
   def Index
     $packages=Package.all
@@ -10,7 +12,7 @@ class HomeController < ApplicationController
     #reading the Json File
     @data_hash=readJsonFile
     #Geting package info from API Fedex
-    @fedexhash=@data_hash[0]['tracking_number']
+    @fedexhash=getPackgeApiFedex(@data_hash[0]['tracking_number'])
     #saving the info of Json file and APi fedex (one single row for tracking number)
     savingdb(@data_hash,@fedexhash)
 
@@ -23,13 +25,13 @@ class HomeController < ApplicationController
     fheight:fedexhash[0]['details']['package_dimensions']['height'],
     fweight:fedexhash[0]['details']['package_weight']['value'],
     fdistance_unit:fedexhash[0]['details']['package_dimensions']['units'],
-    fmass_unit:mass_unit:fedexhash[0]['details']['package_weight']['units'],
+    fmass_unit:fedexhash[0]['details']['package_weight']['units'],
     jlength:data_hash[0]['parcel']['length'],
-    jwidth:data_hash[0]['parcel']['width']
-    jheight:data_hash[0]['parcel']['height']
-    jweight:data_hash[0]['parcel']['weight']
+    jwidth:data_hash[0]['parcel']['width'],
+    jheight:data_hash[0]['parcel']['height'],
+    jweight:data_hash[0]['parcel']['weight'],
     jdistance_unit:data_hash[0]['parcel']['distance_unit'],
-    jmass_unit,data_hash[0]['parcel']['mass_unit']
+    jmass_unit:data_hash[0]['parcel']['mass_unit'],
     eweight: "0"
     )   
 
