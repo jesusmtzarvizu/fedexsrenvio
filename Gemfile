@@ -7,7 +7,9 @@ ruby '2.6.3'
 gem 'rails', '~> 6.0.0'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3', '~> 1.4'
-gem 'sqlite3', git: "https://github.com/larskanis/sqlite3-ruby", branch: "add-gemspec"
+#gem 'sqlite3', git: "https://github.com/larskanis/sqlite3-ruby", branch: "add-gemspec"
+#postgres sql
+gem 'pg'
 # Fedex Gem
 gem 'fedex', :git => 'git://github.com/jazminschroeder/fedex'
 # Use Puma as the app server
